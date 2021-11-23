@@ -18,10 +18,12 @@ const Product = ({ product }) => {
           </Card.Title>
         </Link>
         <Card.Text as='div'>
-          <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
-          />
+          {product.rating && (
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} reviews`}
+            />
+          )}
         </Card.Text>
 
         <Card.Text as='h3'>${product.price}</Card.Text>
@@ -32,6 +34,7 @@ const Product = ({ product }) => {
 
 Rating.defaultProps = {
   color: '#5b62f4',
+  value: 0,
 };
 
 Rating.propTypes = {
