@@ -1,0 +1,23 @@
+{
+  "name": "ecommerce_mern",
+  "version": "1.0.0",
+  "description": "MERN ECommerce Site",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanjacka/proshop_mern.git"
+  },
+  "author": "Jonathan Jacka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonathanjacka/proshop_mern/issues"
+  },
+  "homepage": "https://github.com/jonathanjacka/proshop_mern#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
