@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
 const reviewSchema = mongoose.Schema({
     name: {
@@ -17,6 +17,4 @@ const reviewSchema = mongoose.Schema({
     timestamps: true,
 });
 
-const Review = mongoose.model('Review', reviewSchema);
-
-export default Review;
+export default reviewSchema;
