@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "MERN ECommerce Site",
   "main": "server.js",
-  "type": "module", 
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/server.js",
@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/jonathanjacka/proshop_mern#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
   },
   "devDependencies": {
     "concurrently": "^6.4.0",
