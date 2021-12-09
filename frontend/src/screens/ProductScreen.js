@@ -1,21 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { listProductDetails } from '../actions/productActions';
 
 const ProductScreen = () => {
+  const [quantity, setQuantity] = useState(1);
+
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(listProductDetails(params.id));
   }, [dispatch, params.id]);
+
+  const addToCartHandler = () => {
+    console.log(params, navigate);
+    navigate(`../cart/${params.id}?qty=${quantity}`);
+    //dispatch(addToCart(product._id, qty))
+    //navigate('../cart');
+  };
 
   return (
     <>
@@ -28,8 +47,8 @@ const ProductScreen = () => {
           <Col md={6}>
             <Image src={product.image} alt={product.name} fluid />
           </Col>
-          <Col md={3}>
-            <ListGroup variant='flush'>
+          <Col md={6}>
+            <ListGroup variant='flush' style={{ padding: '1rem' }}>
               <ListGroup.Item>
                 <h3>{product.name}</h3>
               </ListGroup.Item>
@@ -44,10 +63,9 @@ const ProductScreen = () => {
                 Description: {product.description}
               </ListGroup.Item>
             </ListGroup>
-          </Col>
-          <Col md={3}>
+
             <Card>
-              <ListGroup>
+              <ListGroup style={{ padding: '1rem', textAlign: 'center' }}>
                 <ListGroup.Item>
                   <Row>
                     <Col>Price:</Col>
@@ -64,13 +82,46 @@ const ProductScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Quantity:</Col>
+                      <Col>
+                        <Form.Control
+                          as='select'
+                          value={quantity}
+                          onChange={({ target }) => setQuantity(target.value)}
+                          style={{
+                            margin: 'auto',
+                            padding: '0',
+                            textAlign: 'center',
+                            maxWidth: '50%',
+                          }}
+                        >
+                          {[...Array(product.countInStock).keys()].map(
+                            (idx) => (
+                              <option key={idx + 1} value={idx + 1}>
+                                {idx + 1}
+                              </option>
+                            )
+                          )}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
+
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     className='btn-block'
                     type='button'
                     disabled={product.countInStock > 0 ? false : true}
                     style={{
-                      width: '100%',
+                      width: '60%',
+                      display: 'block',
+                      margin: '1rem auto',
                     }}
                   >
                     Add to Cart
@@ -79,6 +130,7 @@ const ProductScreen = () => {
               </ListGroup>
             </Card>
           </Col>
+          <Col md={4}></Col>
         </Row>
       )}
 
