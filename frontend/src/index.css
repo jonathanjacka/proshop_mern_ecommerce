@@ -23,3 +23,28 @@ h3 {
 .rating span {
   margin: 0.1rem;
 }
+
+@media (max-width: 1080px) {
+  .cart-display .form-control {
+    margin-right: 0;
+    padding: 0.6rem 0;
+    text-align: center;
+  }
+
+  .cart-display button {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .cart-display .form-control {
+    width: 30%;
+    margin-right: 0;
+    padding: 0.6rem 0;
+    text-align: center;
+  }
+
+  .cart-display button {
+    padding: 0.8rem;
+  }
+}

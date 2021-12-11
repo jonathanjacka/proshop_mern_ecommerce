@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart, removeFromCart } from '../actions/cartActions';
 import {
   Row,
   Col,
@@ -21,7 +21,7 @@ const CartScreen = () => {
   const { cartItems } = cart;
 
   const removeFromCartHandler = (id) => {
-    console.log(`Remove item: ${id}`);
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
@@ -33,6 +33,7 @@ const CartScreen = () => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    color: 'inherit',
   };
 
   const centerContentSubTotal = {
@@ -42,12 +43,13 @@ const CartScreen = () => {
     justifyContent: 'center',
     flexDirection: 'column',
     textAlign: 'center',
+    color: 'inherit',
   };
 
   return (
-    <Row>
+    <Row className='cart-display'>
       <h1>Shopping Cart:</h1>
-      <Col md={8}>
+      <Col md={8} sm={3}>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty. <Link to='/'>Go Back</Link>
@@ -106,14 +108,16 @@ const CartScreen = () => {
                 )}
                 ) items
               </h2>
-              $
-              {cartItems
-                .reduce(
-                  (total, currentItem) =>
-                    total + currentItem.quantity * currentItem.price,
-                  0
-                )
-                .toFixed(2)}
+              <div style={{ color: '#333' }}>
+                $
+                {cartItems
+                  .reduce(
+                    (total, currentItem) =>
+                      total + currentItem.quantity * currentItem.price,
+                    0
+                  )
+                  .toFixed(2)}
+              </div>
             </ListGroup.Item>
             <ListGroup.Item style={centerContentSubTotal}>
               <Button

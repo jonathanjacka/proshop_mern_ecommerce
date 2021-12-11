@@ -91,7 +91,9 @@ const ProductScreen = () => {
                         <Form.Control
                           as='select'
                           value={quantity}
-                          onChange={({ target }) => setQuantity(target.value)}
+                          onChange={({ target }) =>
+                            setQuantity(Number(target.value))
+                          }
                           style={{
                             margin: 'auto',
                             padding: '0',
