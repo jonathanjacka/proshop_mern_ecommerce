@@ -31,7 +31,6 @@ const ProductScreen = () => {
   }, [dispatch, params.id]);
 
   const addToCartHandler = () => {
-    // navigate(`../cart/${params.id}?qty=${quantity}`);
     dispatch(addToCart(params.id, quantity));
     navigate('../cart');
   };
@@ -132,7 +131,6 @@ const ProductScreen = () => {
               </ListGroup>
             </Card>
           </Col>
-          <Col md={4}></Col>
         </Row>
       )}
 
