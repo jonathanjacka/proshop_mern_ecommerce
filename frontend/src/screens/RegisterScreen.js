@@ -42,6 +42,9 @@ const RegisterScreen = () => {
   return (
     <FormContainer>
       <h1>Register:</h1>
+
+      {/* TO DO: Fix display of error messages */}
+
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
