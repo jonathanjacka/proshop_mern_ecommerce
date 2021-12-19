@@ -12,7 +12,6 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    //TODO: Redirect to home screen on logout
   };
 
   return (

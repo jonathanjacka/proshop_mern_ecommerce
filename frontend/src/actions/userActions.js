@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
@@ -38,6 +40,7 @@ export const login = (email, password) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
+    toast.success('User Login Successful!');
 
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
@@ -55,6 +58,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: USER_LOGOUT });
+  toast.success('User Logout Successful!');
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -86,6 +90,7 @@ export const register = (name, email, password) => async (dispatch) => {
     });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
+    toast.success('Registration Successful!');
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -160,6 +165,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
+    toast.success('Profile Updated Successfully!');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,

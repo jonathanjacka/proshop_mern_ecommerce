@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import { toast } from 'react-toastify';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -44,7 +43,7 @@ const ProfileScreen = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match');
+      toast.error(`Passwords do not match!`, { autoClose: 5000 });
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
@@ -55,13 +54,8 @@ const ProfileScreen = () => {
       <Col md={3}>
         <h2>User Profile:</h2>
 
-        {/* TO DO: Fix display of error messages */}
+        {error && toast.error(`${error}`, { autoClose: 5000 })}
 
-        {message && <Message variant='danger'>{message}</Message>}
-        {error && <Message variant='danger'>{error}</Message>}
-        {success && (
-          <Message variant='success'>Profile was successfully updated!</Message>
-        )}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name' style={{ marginBottom: '20px' }}>
