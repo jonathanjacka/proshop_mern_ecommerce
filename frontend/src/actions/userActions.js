@@ -51,6 +51,9 @@ export const login = (email, password) => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
+      : toast.error(`${error.message}`, { autoClose: 5000 });
   }
 };
 
@@ -99,6 +102,9 @@ export const register = (name, email, password) => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
+      : toast.error(`${error.message}`, { autoClose: 5000 });
   }
 };
 
@@ -133,6 +139,9 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
+      : toast.error(`${error.message}`, { autoClose: 5000 });
   }
 };
 
@@ -174,5 +183,8 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
+      : toast.error(`${error.message}`, { autoClose: 5000 });
   }
 };
