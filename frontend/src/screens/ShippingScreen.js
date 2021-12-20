@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
+import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../actions/cartActions';
 
 const ShippingScreen = () => {
@@ -18,6 +19,9 @@ const ShippingScreen = () => {
   const [city, setCity] = useState(
     shippingAddress.city ? shippingAddress.city : ''
   );
+  const [state, setState] = useState(
+    shippingAddress.state ? shippingAddress.state : ''
+  );
   const [postalCode, setPostalCode] = useState(
     shippingAddress.postalCode ? shippingAddress.postalCode : ''
   );
@@ -27,14 +31,17 @@ const ShippingScreen = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(
+      saveShippingAddress({ address, city, postalCode, state, country })
+    );
     navigate('../payment');
   };
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
-      <>TODO: Checkout Steps</>
+
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='address' style={{ marginBottom: '20px' }}>
           <Form.Label>Address:</Form.Label>
@@ -64,6 +71,16 @@ const ShippingScreen = () => {
             required
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId='state' style={{ marginBottom: '20px' }}>
+          <Form.Label>State:</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter state'
+            required
+            value={state}
+            onChange={(e) => setState(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='country' style={{ marginBottom: '20px' }}>
