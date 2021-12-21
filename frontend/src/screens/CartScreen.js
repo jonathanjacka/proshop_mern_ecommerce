@@ -46,92 +46,99 @@ const CartScreen = () => {
   };
 
   return (
-    <Row className='cart-display'>
-      <h1>Shopping Cart:</h1>
-      <Col md={8}>
-        {cartItems.length === 0 ? (
-          <Message>
-            Your cart is empty. <Link to='/'>Go Back</Link>
-          </Message>
-        ) : (
-          <ListGroup variant='flush'>
-            {cartItems.map((item) => (
-              <ListGroup.Item key={item.product}>
-                <Row style={centerContent}>
-                  <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
-                  </Col>
-                  <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </Col>
-                  <Col md={2}>${item.price}</Col>
-                  <Col md={2}>
-                    <Form.Control
-                      as='select'
-                      value={item.quantity}
-                      onChange={({ target }) =>
-                        dispatch(addToCart(item.product, Number(target.value)))
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((idx) => (
-                        <option key={idx + 1} value={idx + 1}>
-                          {idx + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      type='button'
-                      variant='light'
-                      onClick={() => removeFromCartHandler(item.product)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        )}
-      </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant='flush'>
-            <ListGroup.Item style={centerContentSubTotal}>
-              <h2>
-                Subtotal (
-                {cartItems.reduce(
-                  (total, currentItem) => total + currentItem.quantity,
-                  0
-                )}
-                ) items
-              </h2>
-              <div style={{ color: '#333' }}>
-                $
-                {cartItems
-                  .reduce(
-                    (total, currentItem) =>
-                      total + currentItem.quantity * currentItem.price,
+    <>
+      <Row className='cart-display'>
+        <h1>Shopping Cart:</h1>
+        <Col md={8}>
+          {cartItems.length === 0 ? (
+            <Message>
+              Your cart is empty. <Link to='/'>Go Back</Link>
+            </Message>
+          ) : (
+            <ListGroup variant='flush'>
+              {cartItems.map((item) => (
+                <ListGroup.Item key={item.product}>
+                  <Row style={centerContent}>
+                    <Col md={2}>
+                      <Image src={item.image} alt={item.name} fluid rounded />
+                    </Col>
+                    <Col md={3}>
+                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    </Col>
+                    <Col md={2}>${item.price}</Col>
+                    <Col md={2}>
+                      <Form.Control
+                        as='select'
+                        value={item.quantity}
+                        onChange={({ target }) =>
+                          dispatch(
+                            addToCart(item.product, Number(target.value))
+                          )
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((idx) => (
+                          <option key={idx + 1} value={idx + 1}>
+                            {idx + 1}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        type='button'
+                        variant='light'
+                        onClick={() => removeFromCartHandler(item.product)}
+                      >
+                        <i className='fas fa-trash'></i>
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          )}
+        </Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant='flush'>
+              <ListGroup.Item style={centerContentSubTotal}>
+                <h2>
+                  Subtotal (
+                  {cartItems.reduce(
+                    (total, currentItem) => total + currentItem.quantity,
                     0
-                  )
-                  .toFixed(2)}
-              </div>
-            </ListGroup.Item>
-            <ListGroup.Item style={centerContentSubTotal}>
-              <Button
-                type='button'
-                className='btn-block'
-                disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Proceed to Checkout
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
-    </Row>
+                  )}
+                  ) items
+                </h2>
+                <div style={{ color: '#333' }}>
+                  $
+                  {cartItems
+                    .reduce(
+                      (total, currentItem) =>
+                        total + currentItem.quantity * currentItem.price,
+                      0
+                    )
+                    .toFixed(2)}
+                </div>
+              </ListGroup.Item>
+              <ListGroup.Item style={centerContentSubTotal}>
+                <Button
+                  type='button'
+                  className='btn-block checkout-btn'
+                  disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
+                >
+                  Proceed to Checkout
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+      </Row>
+      <Link className='btn btn-light my-3 cart-btn' to='/'>
+        Continue Shopping
+      </Link>
+    </>
   );
 };
 

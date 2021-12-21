@@ -24,6 +24,11 @@ h3 {
   margin: 0.1rem;
 }
 
+.checkout-btn {
+  color: #fff;
+  background: #7b8ab8;
+}
+
 @media (max-width: 1080px) {
   .cart-display .form-control {
     margin-right: 0;
@@ -31,7 +36,8 @@ h3 {
     text-align: center;
   }
 
-  .cart-display button {
+  .cart-display button,
+  .cart-btn {
     padding: 0.8rem;
   }
 }
@@ -65,6 +71,13 @@ h3 {
   }
 
   .cart-display button {
-    padding: 0.6rem;
+    padding: 0.8rem;
+  }
+
+  .cart-btn {
+    display: block;
+    width: 50%;
+    margin: auto;
+    padding: 0.6rem 0.3rem;
   }
 }
