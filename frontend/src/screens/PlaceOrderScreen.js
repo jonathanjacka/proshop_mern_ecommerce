@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../actions/orderActions';
+import { toast } from 'react-toastify';
 
 const PlaceOrderScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const orderCreate = useSelector((state) => state.orderCreate);
 
   //Cost Calculations
   const formatter = new Intl.NumberFormat('en-US', {
@@ -30,7 +34,33 @@ const PlaceOrderScreen = () => {
   cart.taxPrice = formatter.format(taxPrice);
   cart.totalPrice = formatter.format(totalPrice);
 
-  const placeOrderHandler = () => {};
+  const { order, success, error } = orderCreate;
+
+  useEffect(() => {
+    if (success) {
+      toast.success(`Order: ${order._id} processed successfully!`);
+      navigate(`../order/${order._id}`);
+    }
+    if (error) {
+      toast.error(
+        `Order: ${order._id} couldn't be processed - error: ${error}`
+      );
+    }
+  }, [navigate, success, error, order]);
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
 
   return (
     <div>
