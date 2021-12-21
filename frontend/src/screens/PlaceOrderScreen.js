@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -8,6 +8,29 @@ import CheckoutSteps from '../components/CheckoutSteps';
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
+  //Cost Calculations
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+
+  const itemsPrice = cart.cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  const shippingPrice = itemsPrice > 100 ? 0 : 10;
+  const taxPrice = Number(((itemsPrice / 100) * 15).toFixed(2));
+  const totalPrice = itemsPrice + shippingPrice + taxPrice;
+
+  cart.itemsPrice = formatter.format(itemsPrice);
+  cart.shippingPrice = formatter.format(shippingPrice);
+  cart.taxPrice = formatter.format(taxPrice);
+  cart.totalPrice = formatter.format(totalPrice);
+
+  const placeOrderHandler = () => {};
 
   return (
     <div>
@@ -29,7 +52,92 @@ const PlaceOrderScreen = () => {
               <strong>Method: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
+            <ListGroup.Item>
+              <h2>Items in Order</h2>
+              {cart.cartItems.length === 0 ? (
+                <Message>Your cart is empty.</Message>
+              ) : (
+                <ListGroup variant='flush'>
+                  {cart.cartItems.map((item, idx) => (
+                    <ListGroup.Item key={item.product}>
+                      <Row>
+                        <Col md={1}>
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fluid
+                            rounded
+                          />
+                        </Col>
+                        <Col>
+                          <Link to={`/product/${item.product}`}>
+                            {item.name}
+                          </Link>
+                        </Col>
+                        <Col md={4}>
+                          {item.quantity} x ${item.price} = $
+                          {item.quantity * item.price}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </ListGroup.Item>
           </ListGroup>
+        </Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant='flush'>
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Items:</Col>
+                  <Col>{cart.itemsPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Shipping:</Col>
+                  <Col>{cart.shippingPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Tax:</Col>
+                  <Col>{cart.taxPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Total:</Col>
+                  <Col>{cart.totalPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  type='button'
+                  className='btn-block'
+                  style={{
+                    background: '#FF7272',
+                    color: '#fff',
+                    marginBottom: '0.6rem',
+                  }}
+                  disabled={cart.cartItems === 0}
+                  onClick={placeOrderHandler}
+                >
+                  Place Order
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
     </div>
