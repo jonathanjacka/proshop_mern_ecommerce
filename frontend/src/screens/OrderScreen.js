@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getOrderDetails, payOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { formatter } from '../utils/formatter';
 
 const OrderScreen = () => {
   const params = useParams();
@@ -35,13 +36,13 @@ const OrderScreen = () => {
       script.type = 'text/javascript';
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
       script.async = true;
-      script.onLoad = () => {
+      script.onload = () => {
         setSdkReady(true);
       };
       document.body.appendChild(script);
     };
 
-    if (!order || order._id !== orderId || successPay) {
+    if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
@@ -51,7 +52,7 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, orderId, successPay, order]);
 
   return (
     <div>
@@ -146,25 +147,25 @@ const OrderScreen = () => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Items:</Col>
-                      <Col>{order.itemsPrice}</Col>
+                      <Col>{formatter.format(order.itemsPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Shipping:</Col>
-                      <Col>{order.shippingPrice}</Col>
+                      <Col>{formatter.format(order.shippingPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Tax:</Col>
-                      <Col>{order.taxPrice}</Col>
+                      <Col>{formatter.format(order.taxPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Total:</Col>
-                      <Col>{order.totalPrice}</Col>
+                      <Col>{formatter.format(order.totalPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
                   {!order.isPaid && (
