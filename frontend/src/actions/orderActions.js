@@ -117,6 +117,7 @@ export const payOrder =
         type: ORDER_PAY_SUCCESS,
         payload: data,
       });
+      toast.success(`Order ${orderId} has been paid successfully!`);
     } catch (error) {
       dispatch({
         type: ORDER_PAY_FAIL,
