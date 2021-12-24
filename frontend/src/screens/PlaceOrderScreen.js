@@ -7,6 +7,8 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
 import { toast } from 'react-toastify';
 import { formatter } from '../utils/formatter';
+import { USER_DETAILS_RESET } from '../constants/userConstants';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
@@ -32,6 +34,9 @@ const PlaceOrderScreen = () => {
   useEffect(() => {
     if (success) {
       toast.success(`Order: ${order._id} processed successfully!`);
+
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
       navigate(`../order/${order._id}`);
     }
     if (error) {
@@ -39,7 +44,7 @@ const PlaceOrderScreen = () => {
         `Order: ${order._id} couldn't be processed - error: ${error}`
       );
     }
-  }, [navigate, success, error, order]);
+  }, [navigate, success, error, order, dispatch]);
 
   const placeOrderHandler = () => {
     dispatch(

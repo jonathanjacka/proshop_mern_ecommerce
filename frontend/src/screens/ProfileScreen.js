@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, Table, Nav } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Loader from '../components/Loader';
+import Message from '../components/Message';
+
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { myOrderList } from '../actions/orderActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+
 import { toast } from 'react-toastify';
+import { formatter } from '../utils/formatter';
+import { Link } from 'react-router-dom';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
@@ -24,6 +31,9 @@ const ProfileScreen = () => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
+  const myOrders = useSelector((state) => state.myOrderList);
+  const { loading: loadingOrders, error: errorOrders, orders } = myOrders;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +43,7 @@ const ProfileScreen = () => {
       if (!user || !user.name || success) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails('profile'));
+        dispatch(myOrderList());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -79,7 +90,7 @@ const ProfileScreen = () => {
           </Form.Group>
 
           <Form.Group controlId='password' style={{ marginBottom: '20px' }}>
-            <Form.Label>Password:</Form.Label>
+            <Form.Label>Update Password:</Form.Label>
             <Form.Control
               type='password'
               placeholder='Enter password'
@@ -92,7 +103,7 @@ const ProfileScreen = () => {
             controlId='confirmPassword'
             style={{ marginBottom: '20px' }}
           >
-            <Form.Label>Confirm Password:</Form.Label>
+            <Form.Label>Confirm Updated Password:</Form.Label>
             <Form.Control
               type='password'
               placeholder='Confirm password'
@@ -108,6 +119,58 @@ const ProfileScreen = () => {
       </Col>
       <Col md={9}>
         <h2>My orders:</h2>
+        {loadingOrders ? (
+          <Loader />
+        ) : errorOrders ? (
+          <Message variant='warning'>{errorOrders}</Message>
+        ) : (
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th>DETAILS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order._id}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{formatter.format(order.totalPrice)}</td>
+                  <td>
+                    {order.isPaid ? (
+                      <span style={{ color: '#00aead' }}>
+                        {order.paidAt.substring(0, 10)}
+                      </span>
+                    ) : (
+                      <i className='fas fa-times' style={{ color: '#f00' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    {order.isDelivered ? (
+                      <span style={{ color: '#00aead' }}>
+                        {order.deliveredAt.substring(0, 10)}
+                      </span>
+                    ) : (
+                      <i className='fas fa-times' style={{ color: '#f00' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <Nav.Link as={Link} to={`/order/${order._id}`}>
+                      <Button className='btn-sm' variant='light'>
+                        Details
+                      </Button>
+                    </Nav.Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );
