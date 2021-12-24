@@ -99,4 +99,24 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, registerUser, updateUserProfile };
+// @desc    Get all users
+// @routes  GET /api/users
+// @access  Private/Admin
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  if (!users) {
+    res.status(404);
+    throw new Error('Unable to return all users');
+  } else {
+    res.json(users);
+  }
+});
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getAllUsers,
+};
