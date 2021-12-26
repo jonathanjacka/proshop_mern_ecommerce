@@ -81,7 +81,7 @@ const UserListScreen = () => {
                     justifyContent: 'space-around',
                   }}
                 >
-                  <Nav.Link as={Link} to={`/user/${user._id}/edit`}>
+                  <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                       <i className='fas fa-edit'></i>
                     </Button>
