@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { Table, Button, Nav, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
 import { formatter } from '../utils/formatter';
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const params = useParams();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const { loading: loadingDelete, success: successDelete } = productDelete;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,12 +26,16 @@ const ProductListScreen = () => {
     } else {
       navigate('../login');
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, navigate, userInfo, successDelete]);
 
   const createProductHandler = (product) => {
     //create product
   };
-  const deleteHandler = (id) => {};
+  const deleteHandler = (id) => {
+    if (window.confirm('Are you sure you wish to delete this product?')) {
+      dispatch(deleteProduct(id));
+    }
+  };
 
   return (
     <>
@@ -43,6 +49,7 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
 
       {loading ? (
         <Loader />
