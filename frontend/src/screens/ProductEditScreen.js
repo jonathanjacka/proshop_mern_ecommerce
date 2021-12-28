@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 import { listProductDetails, updateProduct } from '../actions/productActions';
-
 import { toast } from 'react-toastify';
 import {
   PRODUCT_UPDATE_RESET,
@@ -125,7 +124,7 @@ const ProductEditScreen = () => {
                 type='number'
                 placeholder='Enter price'
                 value={price}
-                onChange={(e) => setPrice(e.target.value.toString())}
+                onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
