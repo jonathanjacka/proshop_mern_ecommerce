@@ -18,11 +18,13 @@ const Product = ({ product }) => {
           </Card.Title>
         </Link>
         <Card.Text as='div'>
-          {product.rating && (
+          {product.rating ? (
             <Rating
               value={product.rating}
               text={`${product.numReviews} reviews`}
             />
+          ) : (
+            <Rating value={0} text={`0 reviews`} />
           )}
         </Card.Text>
 
