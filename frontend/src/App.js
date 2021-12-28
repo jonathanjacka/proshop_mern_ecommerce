@@ -57,7 +57,13 @@ const App = () => {
         </Container>
       </main>
       <Footer />
-      <ToastContainer autoClose={2000} position='top-center' pauseOnHover />
+      <ToastContainer
+        autoClose={2000}
+        position='top-center'
+        pauseOnHover
+        theme='colored'
+        hideProgressBar='true'
+      />
     </Router>
   );
 };

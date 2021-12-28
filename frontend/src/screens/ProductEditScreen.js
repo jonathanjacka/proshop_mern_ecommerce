@@ -3,11 +3,14 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
-import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, updateProduct } from '../actions/productActions';
 
 import { toast } from 'react-toastify';
+import {
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_DETAILS_RESET,
+} from '../constants/productConstants';
 
 const ProductEditScreen = () => {
   const dispatch = useDispatch();
@@ -16,13 +19,11 @@ const ProductEditScreen = () => {
 
   const { id: productId } = params;
 
-  //   const userLogin = useSelector((state) => state.userLogin);
-  //   const {
-  //     userInfo: { _id: loggedInUserID },
-  //   } = userLogin;
-
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
+
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const { loading: loadingUpdate, success: successUpdate } = productUpdate;
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('0.00');
@@ -32,25 +33,40 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
-  //productUpdate
-
   useEffect(() => {
-    if (!product || product._id !== productId) {
-      dispatch(listProductDetails(productId));
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      dispatch({ type: PRODUCT_DETAILS_RESET });
+      navigate('../admin/productlist');
     } else {
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
+      if (!product || product._id !== productId) {
+        dispatch(listProductDetails(productId));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      }
     }
-  }, [product, productId, dispatch, navigate]);
+  }, [product, productId, dispatch, navigate, successUpdate]);
 
   const submitHandler = (event) => {
     event.preventDefault();
-    //dispatch(updateProduct({ _id: productId, name, price, image, brand, category, countInStock, description }));
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        countInStock,
+        description,
+      })
+    );
   };
 
   return (
@@ -61,8 +77,7 @@ const ProductEditScreen = () => {
       <FormContainer>
         <h1>Edit Product:</h1>
 
-        {/* {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>} */}
+        {loadingUpdate && <Loader />}
 
         {error && toast.error(`${error}`, { autoClose: 5000 })}
 
