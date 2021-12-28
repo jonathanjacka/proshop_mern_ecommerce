@@ -93,4 +93,24 @@ const getMyOrders = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };
+// @desc    Get All orders
+// @routes  GET /api/orders
+// @access  Admin/Private
+const getAllOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user', 'id name');
+
+  if (!orders) {
+    res.status(404);
+    throw new Error('Orders could not be retreived.');
+  } else {
+    res.json(orders);
+  }
+});
+
+export {
+  addOrderItems,
+  getOrderById,
+  updateOrderToPaid,
+  getMyOrders,
+  getAllOrders,
+};
