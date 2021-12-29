@@ -18,6 +18,9 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
 } from '../constants/orderConstants';
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -143,43 +146,81 @@ export const payOrder =
     }
   };
 
-export const myOrderList =
-  (orderId, paymentResult) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: MY_ORDER_LIST_REQUEST,
-      });
+export const deliverOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST,
+    });
 
-      const {
-        userLogin: { userInfo },
-      } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-      const { data } = await axios.get(`/api/orders/myorders`, config);
+    const { data } = await axios.put(
+      `/api/orders/${orderId}/deliver`,
+      {},
+      config
+    );
 
-      dispatch({
-        type: MY_ORDER_LIST_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: MY_ORDER_LIST_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-      error.response && error.response.data.message
-        ? toast.error(`${error.response.data.message}`, { autoClose: false })
-        : toast.error(`${error.message}`, { autoClose: false });
-    }
-  };
+    dispatch({
+      type: ORDER_DELIVER_SUCCESS,
+      payload: data,
+    });
+    toast.success(`Order ${orderId} has been set to DELIVERED successfully!`);
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    error.response && error.response.data.message
+      ? toast.error(`${error.response.data.message}`, { autoClose: false })
+      : toast.error(`${error.message}`, { autoClose: false });
+  }
+};
+
+export const myOrderList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: MY_ORDER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/myorders`, config);
+
+    dispatch({
+      type: MY_ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MY_ORDER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const getOrderList = () => async (dispatch, getState) => {
   try {
@@ -211,8 +252,5 @@ export const getOrderList = () => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
-    error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: false })
-      : toast.error(`${error.message}`, { autoClose: false });
   }
 };
