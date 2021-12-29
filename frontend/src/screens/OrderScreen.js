@@ -22,14 +22,22 @@ const OrderScreen = () => {
 
   const orderId = params.id;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const {
+    userInfo: { _id: loggedInUserId },
+  } = userLogin;
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
+  const {
+    user: { _id: orderIdOfUser },
+  } = order;
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
 
@@ -173,7 +181,7 @@ const OrderScreen = () => {
                       <Col>{formatter.format(order.totalPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
-                  {!order.isPaid && (
+                  {!order.isPaid && loggedInUserId === orderIdOfUser && (
                     <ListGroup.Item>
                       {loadingPay && <Loader />}
                       {!sdkReady ? (
