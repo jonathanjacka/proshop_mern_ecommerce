@@ -65,6 +65,7 @@ const App = () => {
         pauseOnHover
         theme='colored'
         hideProgressBar='true'
+        closeOnClick='true'
       />
     </Router>
   );

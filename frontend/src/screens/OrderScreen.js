@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Row, Col, ListGroup, Card, Image, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import {
   getOrderDetails,
-  payOrder,
   myOrderList,
+  payOrder,
 } from '../actions/orderActions';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
 import { formatter } from '../utils/formatter';
@@ -18,14 +18,13 @@ const OrderScreen = () => {
   const params = useParams();
   const orderId = params.id;
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const orderIdOfUser = useRef(null);
   const [sdkReady, setSdkReady] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
-  const {
-    userInfo: { _id: userId },
-  } = userLogin;
+  const { userInfo } = userLogin;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
@@ -50,6 +49,12 @@ const OrderScreen = () => {
       document.body.appendChild(script);
     };
 
+    if (order) {
+      if (order.user._id !== userInfo._id && !userInfo.isAdmin) {
+        navigate('../');
+      }
+    }
+
     if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
@@ -61,7 +66,7 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, navigate, userInfo]);
 
   return (
     <div>
@@ -71,8 +76,18 @@ const OrderScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          {(orderIdOfUser.current = order.user._id)}
+          {userInfo.isAdmin ? (
+            <Button as={Link} to={`/admin/orderlist`} variant='light'>
+              Back to Orders
+            </Button>
+          ) : (
+            <Button as={Link} to={`/profile`} variant='light'>
+              Back to Profile
+            </Button>
+          )}
+
           <h1>Order ID:{order._id}</h1>
+
           <Row>
             <Col md={8}>
               <ListGroup variant='flush'>
@@ -178,7 +193,7 @@ const OrderScreen = () => {
                       <Col>{formatter.format(order.totalPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
-                  {!order.isPaid && orderIdOfUser.current === userId && (
+                  {order && !order.isPaid && order.user._id === userInfo._id && (
                     <ListGroup.Item>
                       {loadingPay && <Loader />}
                       {!sdkReady ? (

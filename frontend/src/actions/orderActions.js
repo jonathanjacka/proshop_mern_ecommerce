@@ -59,8 +59,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(`${error.response.data.message}`, { autoClose: false })
+      : toast.error(`${error.message}`, { autoClose: false });
   }
 };
 
@@ -95,8 +95,8 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(`${error.response.data.message}`, { autoClose: false })
+      : toast.error(`${error.message}`, { autoClose: false });
   }
 };
 
@@ -138,8 +138,8 @@ export const payOrder =
             : error.message,
       });
       error.response && error.response.data.message
-        ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-        : toast.error(`${error.message}`, { autoClose: 5000 });
+        ? toast.error(`${error.response.data.message}`, { autoClose: false })
+        : toast.error(`${error.message}`, { autoClose: false });
     }
   };
 
@@ -176,8 +176,8 @@ export const myOrderList =
             : error.message,
       });
       error.response && error.response.data.message
-        ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-        : toast.error(`${error.message}`, { autoClose: 5000 });
+        ? toast.error(`${error.response.data.message}`, { autoClose: false })
+        : toast.error(`${error.message}`, { autoClose: false });
     }
   };
 
@@ -212,7 +212,7 @@ export const getOrderList = () => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(`${error.response.data.message}`, { autoClose: false })
+      : toast.error(`${error.message}`, { autoClose: false });
   }
 };

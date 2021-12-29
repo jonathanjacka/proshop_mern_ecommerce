@@ -6,7 +6,6 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { getOrderList } from '../actions/orderActions';
 import { ORDER_LIST_RESET } from '../constants/orderConstants';
-import { formatter } from '../utils/formatter';
 
 const OrderListScreen = () => {
   const dispatch = useDispatch();
@@ -26,9 +25,6 @@ const OrderListScreen = () => {
       dispatch(getOrderList());
     }
   }, [dispatch, navigate, userInfo]);
-
-  const createProductHandler = () => {};
-  const deleteHandler = (id) => {};
 
   return (
     <>
