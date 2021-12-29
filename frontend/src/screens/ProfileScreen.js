@@ -23,7 +23,7 @@ const ProfileScreen = () => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const { loading, user } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -64,8 +64,6 @@ const ProfileScreen = () => {
     <Row>
       <Col md={3}>
         <h2>User Profile:</h2>
-
-        {error && toast.error(`${error}`, { autoClose: 5000 })}
 
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>

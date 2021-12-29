@@ -3,11 +3,9 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
-import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 import { getUserDetails, updateUser } from '../actions/userActions';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
-import { toast } from 'react-toastify';
 
 const UserEditScreen = () => {
   const dispatch = useDispatch();
@@ -25,14 +23,10 @@ const UserEditScreen = () => {
   } = userLogin;
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const { loading, user } = userDetails;
 
   const userUpdate = useSelector((state) => state.userUpdate);
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = userUpdate;
+  const { loading: loadingUpdate, success: successUpdate } = userUpdate;
 
   useEffect(() => {
     if (successUpdate) {
@@ -63,9 +57,6 @@ const UserEditScreen = () => {
         <h1>Edit User:</h1>
 
         {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-
-        {error && toast.error(`${error}`, { autoClose: 5000 })}
 
         {loading ? (
           <Loader />

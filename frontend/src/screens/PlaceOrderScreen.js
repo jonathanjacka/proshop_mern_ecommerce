@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
-import { toast } from 'react-toastify';
 import { formatter } from '../utils/formatter';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 import { ORDER_CREATE_RESET } from '../constants/orderConstants';
@@ -29,22 +28,15 @@ const PlaceOrderScreen = () => {
     cart.itemsPrice + cart.shippingPrice + cart.taxPrice
   ).toFixed(2);
 
-  const { order, success, error } = orderCreate;
+  const { order, success } = orderCreate;
 
   useEffect(() => {
     if (success) {
-      toast.success(`Order: ${order._id} processed successfully!`);
-
       dispatch({ type: USER_DETAILS_RESET });
       dispatch({ type: ORDER_CREATE_RESET });
       navigate(`../order/${order._id}`);
     }
-    if (error) {
-      toast.error(
-        `Order: ${order._id} couldn't be processed - error: ${error}`
-      );
-    }
-  }, [navigate, success, error, order, dispatch]);
+  }, [navigate, success, order, dispatch]);
 
   const placeOrderHandler = () => {
     dispatch(

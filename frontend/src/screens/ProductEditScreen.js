@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 import { listProductDetails, updateProduct } from '../actions/productActions';
-import { toast } from 'react-toastify';
 import {
   PRODUCT_UPDATE_RESET,
   PRODUCT_DETAILS_RESET,
@@ -21,7 +20,7 @@ const ProductEditScreen = () => {
   const { id: productId } = params;
 
   const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const { loading, product } = productDetails;
 
   const productUpdate = useSelector((state) => state.productUpdate);
   const { loading: loadingUpdate, success: successUpdate } = productUpdate;
@@ -87,7 +86,6 @@ const ProductEditScreen = () => {
       setImage(data);
       setUploading(false);
     } catch (error) {
-      toast.error(error);
       setUploading(false);
     }
   };
@@ -101,8 +99,6 @@ const ProductEditScreen = () => {
         <h1>Edit Product:</h1>
 
         {loadingUpdate && <Loader />}
-
-        {error && toast.error(`${error}`, { autoClose: 5000 })}
 
         {loading ? (
           <Loader />
