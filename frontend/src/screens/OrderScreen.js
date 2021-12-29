@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Link, useParams } from 'react-router-dom';
@@ -16,23 +16,19 @@ import { formatter } from '../utils/formatter';
 
 const OrderScreen = () => {
   const params = useParams();
-  const dispatch = useDispatch();
-
-  const [sdkReady, setSdkReady] = useState(false);
-
   const orderId = params.id;
+
+  const dispatch = useDispatch();
+  const orderIdOfUser = useRef(null);
+  const [sdkReady, setSdkReady] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const {
-    userInfo: { _id: loggedInUserId },
+    userInfo: { _id: userId },
   } = userLogin;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
-
-  const {
-    user: { _id: orderIdOfUser },
-  } = order;
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
@@ -75,6 +71,7 @@ const OrderScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+          {(orderIdOfUser.current = order.user._id)}
           <h1>Order ID:{order._id}</h1>
           <Row>
             <Col md={8}>
@@ -181,7 +178,7 @@ const OrderScreen = () => {
                       <Col>{formatter.format(order.totalPrice)}</Col>
                     </Row>
                   </ListGroup.Item>
-                  {!order.isPaid && loggedInUserId === orderIdOfUser && (
+                  {!order.isPaid && orderIdOfUser.current === userId && (
                     <ListGroup.Item>
                       {loadingPay && <Loader />}
                       {!sdkReady ? (
