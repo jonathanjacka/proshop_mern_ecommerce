@@ -38,11 +38,8 @@ const ProductScreen = () => {
   const { userInfo } = userLogin;
 
   const productCreateReview = useSelector((state) => state.productCreateReview);
-  const {
-    loading: loadingProductReview,
-    error: errorProductReview,
-    success: successProductReview,
-  } = productCreateReview;
+  const { loading: loadingProductReview, success: successProductReview } =
+    productCreateReview;
 
   useEffect(() => {
     if (successProductReview) {
