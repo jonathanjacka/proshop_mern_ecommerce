@@ -64,8 +64,12 @@ export const login = (email, password) => async (dispatch) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(`Login unsuccessful: ${error.response.data.message}`, {
+          autoClose: 5000,
+        })
+      : toast.error(`Login unsuccessful:  ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -117,8 +121,13 @@ export const register = (name, email, password) => async (dispatch) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Unable to process registration: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Unable to process registration: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -154,8 +163,13 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Could not retreive user details: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Could not retreive user details: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -198,8 +212,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Unable to update profile: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Unable to update profile: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -261,6 +280,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       type: USER_DELETE_SUCCESS,
       payload: data,
     });
+    toast.success('User successfully removed');
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAIL,

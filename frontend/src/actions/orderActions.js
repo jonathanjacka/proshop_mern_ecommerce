@@ -51,7 +51,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: CART_CLEAR_ITEMS,
       payload: data,
     });
-
+    toast.success('Order successfully created!');
     localStorage.removeItem('cartItems');
   } catch (error) {
     dispatch({
@@ -62,8 +62,12 @@ export const createOrder = (order) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: false })
-      : toast.error(`${error.message}`, { autoClose: false });
+      ? toast.error(`Unable to create order: ${error.response.data.message}`, {
+          autoClose: false,
+        })
+      : toast.error(`Unable to create order: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -98,8 +102,13 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: false })
-      : toast.error(`${error.message}`, { autoClose: false });
+      ? toast.error(
+          `Could not retreive order details: ${error.response.data.message}`,
+          { autoClose: false }
+        )
+      : toast.error(`Could not retreive order details: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -141,8 +150,13 @@ export const payOrder =
             : error.message,
       });
       error.response && error.response.data.message
-        ? toast.error(`${error.response.data.message}`, { autoClose: false })
-        : toast.error(`${error.message}`, { autoClose: false });
+        ? toast.error(
+            `Unable to process payment: ${error.response.data.message}`,
+            { autoClose: false }
+          )
+        : toast.error(`Unable to process payment: ${error.message}`, {
+            autoClose: false,
+          });
     }
   };
 
@@ -183,8 +197,12 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: false })
-      : toast.error(`${error.message}`, { autoClose: false });
+      ? toast.error(`Unable to update order: ${error.response.data.message}`, {
+          autoClose: false,
+        })
+      : toast.error(`Unable to update order:  ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -219,6 +237,14 @@ export const myOrderList = () => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(
+          `Unable to generate order list: ${error.response.data.message}`,
+          { autoClose: false }
+        )
+      : toast.error(`Unable to generate order list: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -252,5 +278,13 @@ export const getOrderList = () => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(
+          `Unable to generate order list: ${error.response.data.message}`,
+          { autoClose: false }
+        )
+      : toast.error(`Unable to generate order list: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };

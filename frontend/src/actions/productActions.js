@@ -37,6 +37,14 @@ export const listProducts = () => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(
+          `Unable to generate product list: ${error.response.data.message}`,
+          { autoClose: false }
+        )
+      : toast.error(`Unable to generate product list: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -58,6 +66,14 @@ export const listProductDetails = (id) => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+    error.response && error.response.data.message
+      ? toast.error(
+          `Unable to generate product details: ${error.response.data.message}`,
+          { autoClose: false }
+        )
+      : toast.error(`Unable to generate product details: ${error.message}`, {
+          autoClose: false,
+        });
   }
 };
 
@@ -94,8 +110,13 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Unable to remove product: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Unable to remove product: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -132,8 +153,13 @@ export const createProduct = () => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Unable to create product: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Unable to create product: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
 
@@ -174,7 +200,12 @@ export const updateProduct = (product) => async (dispatch, getState) => {
           : error.message,
     });
     error.response && error.response.data.message
-      ? toast.error(`${error.response.data.message}`, { autoClose: 5000 })
-      : toast.error(`${error.message}`, { autoClose: 5000 });
+      ? toast.error(
+          `Unable to process update: ${error.response.data.message}`,
+          { autoClose: 5000 }
+        )
+      : toast.error(`Unable to process update: ${error.message}`, {
+          autoClose: 5000,
+        });
   }
 };
