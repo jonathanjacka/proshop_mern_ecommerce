@@ -21,7 +21,9 @@ const Product = ({ product }) => {
           {product.rating ? (
             <Rating
               value={product.rating}
-              text={`${product.numReviews} reviews`}
+              text={`${product.numReviews} ${
+                product.numReviews === 1 ? 'review' : 'reviews'
+              }`}
             />
           ) : (
             <Rating value={0} text={`0 reviews`} />
