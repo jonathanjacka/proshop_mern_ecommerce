@@ -103,13 +103,20 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @routes  GET /api/users
 // @access  Private/Admin
 const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await User.count();
+
+  const users = await User.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
 
   if (!users) {
     res.status(404);
     throw new Error('Unable to return all users');
   } else {
-    res.json(users);
+    res.json({ users, page, pages: Math.ceil(count / pageSize) });
   }
 });
 

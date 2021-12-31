@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { Table, Button, Nav, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { getOrderList } from '../actions/orderActions';
 import { ORDER_LIST_RESET } from '../constants/orderConstants';
 
 const OrderListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
+
+  const pageNumber = params.pageNumber || 1;
 
   const orderList = useSelector((state) => state.orderList);
-  const { loading, error, orders } = orderList;
+  const { loading, error, orders, page, pages } = orderList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -22,9 +26,9 @@ const OrderListScreen = () => {
     if (!userInfo || !userInfo.isAdmin) {
       navigate('../login');
     } else {
-      dispatch(getOrderList());
+      dispatch(getOrderList(pageNumber));
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, navigate, userInfo, pageNumber]);
 
   return (
     <>
@@ -84,6 +88,7 @@ const OrderListScreen = () => {
           </tbody>
         </Table>
       )}
+      <Paginate total={pages} page={page} />
     </>
   );
 };

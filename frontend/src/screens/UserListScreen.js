@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react';
 import { Table, Button, Nav } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { getAllUsers, deleteUser } from '../actions/userActions';
 
 const UserListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
+
+  const pageNumber = params.pageNumber || 1;
 
   const userList = useSelector((state) => state.userList);
-  const { loading, error, users } = userList;
+  const { loading, error, users, page, pages } = userList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -21,11 +25,11 @@ const UserListScreen = () => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getAllUsers());
+      dispatch(getAllUsers(pageNumber));
     } else {
       navigate('../login');
     }
-  }, [dispatch, navigate, userInfo, successDelete]);
+  }, [dispatch, navigate, userInfo, successDelete, pageNumber]);
 
   const deleteHandler = (id) => {
     if (
@@ -102,6 +106,7 @@ const UserListScreen = () => {
           </tbody>
         </Table>
       )}
+      <Paginate total={pages} page={page} />
     </>
   );
 };

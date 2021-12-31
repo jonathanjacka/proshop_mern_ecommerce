@@ -13,13 +13,13 @@ const Paginate = ({ total, page }) => {
   return (
     total > 1 && (
       <Pagination className='justify-content-center my-3'>
-        {[...Array(total).keys()].map((p) => (
+        {[...Array(total).keys()].map((idx) => (
           <Pagination.Item
-            key={p}
-            active={p + 1 === page}
-            onClick={() => navigate(`${baseURL}/page/${p + 1}`)}
+            key={idx}
+            active={idx + 1 === page}
+            onClick={() => navigate(`${baseURL}/page/${idx + 1}`)}
           >
-            {p + 1}
+            {idx + 1}
           </Pagination.Item>
         ))}
       </Pagination>

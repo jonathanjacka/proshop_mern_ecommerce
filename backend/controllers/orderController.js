@@ -116,13 +116,21 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @routes  GET /api/orders
 // @access  Admin/Private
 const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Order.count();
+
+  const orders = await Order.find({})
+    .populate('user', 'id name')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
 
   if (!orders) {
     res.status(404);
     throw new Error('Orders could not be retreived.');
   } else {
-    res.json(orders);
+    res.json({ orders, page, pages: Math.ceil(count / pageSize) });
   }
 });
 

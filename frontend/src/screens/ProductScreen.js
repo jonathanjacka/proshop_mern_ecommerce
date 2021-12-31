@@ -62,7 +62,7 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Button className='btn btn-light my-3' as={Link} to='/'>
+      <Button className='btn btn-light my-3' as={Link} to={-1}>
         Go Back
       </Button>
       {loading ? (

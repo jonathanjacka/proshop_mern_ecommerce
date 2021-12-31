@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Table, Button, Nav, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import {
   listProducts,
   deleteProduct,
@@ -15,9 +16,12 @@ import { formatter } from '../utils/formatter';
 const ProductListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
+
+  const pageNumber = params.pageNumber || 1;
 
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, pages, page } = productList;
 
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, success: successDelete } = productDelete;
@@ -42,7 +46,7 @@ const ProductListScreen = () => {
     if (successCreate) {
       navigate(`../admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
   }, [
     dispatch,
@@ -51,6 +55,7 @@ const ProductListScreen = () => {
     successDelete,
     successCreate,
     createdProduct,
+    pageNumber,
   ]);
 
   const createProductHandler = () => {
@@ -127,6 +132,7 @@ const ProductListScreen = () => {
           </tbody>
         </Table>
       )}
+      <Paginate total={pages} page={page} />
     </>
   );
 };

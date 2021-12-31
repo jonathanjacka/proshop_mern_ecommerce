@@ -248,43 +248,48 @@ export const myOrderList = () => async (dispatch, getState) => {
   }
 };
 
-export const getOrderList = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: ORDER_LIST_REQUEST,
-    });
+export const getOrderList =
+  (pageNumber = '') =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ORDER_LIST_REQUEST,
+      });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.get(`/api/orders`, config);
+      const { data } = await axios.get(
+        `/api/orders?pageNumber=${pageNumber}`,
+        config
+      );
 
-    dispatch({
-      type: ORDER_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ORDER_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-    error.response && error.response.data.message
-      ? toast.error(
-          `Unable to generate order list: ${error.response.data.message}`,
-          { autoClose: false }
-        )
-      : toast.error(`Unable to generate order list: ${error.message}`, {
-          autoClose: false,
-        });
-  }
-};
+      dispatch({
+        type: ORDER_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ORDER_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+      error.response && error.response.data.message
+        ? toast.error(
+            `Unable to generate order list: ${error.response.data.message}`,
+            { autoClose: false }
+          )
+        : toast.error(`Unable to generate order list: ${error.message}`, {
+            autoClose: false,
+          });
+    }
+  };
