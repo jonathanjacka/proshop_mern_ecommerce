@@ -100,17 +100,11 @@ const OrderScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          {userInfo.isAdmin ? (
-            <Button as={Link} to={`/admin/orderlist`} variant='light'>
-              Back to Orders
-            </Button>
-          ) : (
-            <Button as={Link} to={`/profile`} variant='light'>
-              Back to Profile
-            </Button>
-          )}
-
-          <h1>Order ID:{order._id}</h1>
+          <Button as={Link} to={-1} variant='light'>
+            Go Back
+          </Button>
+          <h1 className='order-screen-heading'>Order ID:</h1>
+          <h2 className='order-screen-heading'>{order._id}</h2>
 
           <Row>
             <Col md={8}>

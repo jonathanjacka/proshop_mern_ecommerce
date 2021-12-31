@@ -16,6 +16,20 @@ h3 {
   padding: 1rem 0;
 }
 
+/* Home screen search box */
+
+.home-page-search-box {
+  display: flex;
+}
+
+@media (max-width: 786px) {
+  .home-page-search-box {
+    margin: 1rem 0.5rem;
+  }
+}
+
+/*Rating Component*/
+
 .rating {
   margin-bottom: 0.5rem;
 }
@@ -23,6 +37,8 @@ h3 {
 .rating span {
   margin: 0.1rem;
 }
+
+/* Cart Screen */
 
 .checkout-btn {
   color: #fff;
@@ -79,5 +95,64 @@ h3 {
     width: 50%;
     margin: auto;
     padding: 0.6rem 0.3rem;
+  }
+}
+
+/* carousel - homepage */
+.carousel {
+  background: rgb(122, 130, 243);
+  background: radial-gradient(
+    circle,
+    rgba(122, 130, 243, 1) 2%,
+    rgba(228, 235, 245, 1) 98%
+  );
+}
+
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+.carousel-caption {
+  position: absolute;
+  top: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.carousel-caption h2 {
+  color: #fff;
+}
+
+.carousel img {
+  height: 300px;
+  padding: 40px;
+  margin: 40px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.carousel a {
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .carousel-caption h2 {
+    font-size: 4vw;
+    color: #5b62f4;
+    text-transform: uppercase;
+  }
+}
+
+/* Order screen */
+
+@media (max-width: 786px) {
+  .order-screen-heading {
+    text-align: center;
+    font-size: 6vw;
+  }
+
+  h1.order-screen-heading {
+    padding-bottom: 0;
   }
 }
