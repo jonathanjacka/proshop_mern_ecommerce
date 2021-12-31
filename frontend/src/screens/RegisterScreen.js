@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 import { register } from '../actions/userActions';
 import { toast } from 'react-toastify';
 
@@ -40,6 +41,7 @@ const RegisterScreen = () => {
 
   return (
     <FormContainer>
+      <Meta title={'ProShop | Register'} />
       <h1>Register:</h1>
 
       {loading && <Loader />}

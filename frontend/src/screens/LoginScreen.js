@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 import { login } from '../actions/userActions';
 
 const LoginScreen = () => {
@@ -33,6 +34,7 @@ const LoginScreen = () => {
 
   return (
     <FormContainer>
+      <Meta title={'ProShop | Sign In'} />
       <h1>Sign In:</h1>
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>

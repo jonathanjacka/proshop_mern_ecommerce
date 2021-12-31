@@ -4,6 +4,7 @@ import { Button, Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
+import Meta from '../components/Meta';
 import { createOrder } from '../actions/orderActions';
 import { formatter } from '../utils/formatter';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
@@ -54,6 +55,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <div>
+      <Meta title={'ProShop | Place Order'} />
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>

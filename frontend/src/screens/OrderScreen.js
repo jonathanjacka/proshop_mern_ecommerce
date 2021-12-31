@@ -6,6 +6,7 @@ import { Row, Col, ListGroup, Card, Image, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import {
   getOrderDetails,
   myOrderList,
@@ -44,7 +45,7 @@ const OrderScreen = () => {
       navigate('../login');
     }
 
-    if (order) {
+    if (order && userInfo) {
       if (order.user._id !== userInfo._id && !userInfo.isAdmin) {
         navigate('../');
       }
@@ -100,6 +101,7 @@ const OrderScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+          <Meta title={`ProShop | Order ${order._id}`} />
           <Button as={Link} to={-1} variant='light'>
             Go Back
           </Button>

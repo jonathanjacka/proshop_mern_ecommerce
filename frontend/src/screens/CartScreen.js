@@ -12,6 +12,7 @@ import {
   Card,
 } from 'react-bootstrap';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -45,8 +46,25 @@ const CartScreen = () => {
     color: 'inherit',
   };
 
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   return (
     <>
+      <Meta
+        title={
+          cartItems.length === 0
+            ? 'ProShop | Cart'
+            : cartItems.reduce((total, item) => total + item.quantity, 0) === 1
+            ? 'Proshop | 1 Item in Cart'
+            : `ProShop | ${cartItems.reduce(
+                (total, item) => total + item.quantity,
+                0
+              )} Items in Cart`
+        }
+      />
       <Row className='cart-display'>
         <h1>Shopping Cart:</h1>
         <Col md={8}>

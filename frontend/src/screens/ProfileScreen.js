@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { myOrderList } from '../actions/orderActions';
@@ -62,6 +63,7 @@ const ProfileScreen = () => {
 
   return (
     <Row>
+      <Meta title={`ProShop | Profile | ${name}`} />
       <Col md={3}>
         <h2>User Profile:</h2>
 

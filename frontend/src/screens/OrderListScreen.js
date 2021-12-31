@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import Meta from '../components/Meta';
 import { getOrderList } from '../actions/orderActions';
 import { ORDER_LIST_RESET } from '../constants/orderConstants';
 
@@ -32,6 +33,7 @@ const OrderListScreen = () => {
 
   return (
     <>
+      <Meta title={'ProShop | Admin | Orders'} />
       <Row className='align-items-center'>
         <Col>
           <h1>Orders:</h1>

@@ -6,6 +6,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import {
   PRODUCT_UPDATE_RESET,
@@ -104,6 +105,7 @@ const ProductEditScreen = () => {
           <Loader />
         ) : (
           <Form onSubmit={submitHandler}>
+            <Meta title={`Edit Product | ${name}`} />
             <Form.Group controlId='name' style={{ marginBottom: '20px' }}>
               <Form.Label>Name:</Form.Label>
               <Form.Control
