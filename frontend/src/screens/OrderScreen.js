@@ -46,12 +46,7 @@ const OrderScreen = () => {
     }
 
     if (order && userInfo) {
-      console.log('Running!');
-
       if (order.user._id !== userInfo._id && !userInfo.isAdmin) {
-        console.log(order.user._id);
-        console.log(userInfo._id);
-        console.log(userInfo.isAdmin);
         navigate('../');
       }
     }
