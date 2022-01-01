@@ -36,9 +36,14 @@ app.use(
         scriptSrc: [
           "'self'",
           "'unsafe-inline'",
-          'https://codersleague.herokuapp.com',
+          'https://frozen-waters-85538.herokuapp.com/',
         ],
         styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
+        styleSrc: [
+          "'self'",
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css',
+          "'unsafe-inline'",
+        ],
         imgSrc: ["'self'", 'https://*.com'],
         fontSrc: ["'self'", 'https://*.com', 'data:'],
       },
