@@ -28,7 +28,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      'script-src': ["'self'", 'https://frozen-waters-85538.herokuapp.com/'],
+      'style-src': null,
+    },
+  })
+);
 app.use(xssClean());
 app.use(mongoSanitize());
 app.use(hpp());
@@ -37,6 +45,7 @@ app.use(hpp());
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 100, // 100 requests per IP
+  message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use(limiter);
 
