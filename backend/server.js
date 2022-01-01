@@ -30,24 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          'https://frozen-waters-85538.herokuapp.com/',
-        ],
-        styleSrc: [
-          "'self'",
-          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css',
-          'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap',
-          "'unsafe-inline'",
-        ],
-        imgSrc: ["'self'", 'http://res.cloudinary.com/', 'data:'],
-        fontSrc: ["'self'", 'https://*.com', 'data:'],
-      },
-    },
+    contentSecurityPolicy: false,
   })
 );
 app.use(xssClean());
