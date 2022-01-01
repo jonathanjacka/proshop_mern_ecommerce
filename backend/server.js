@@ -38,19 +38,15 @@ app.use(
           "'unsafe-inline'",
           'https://frozen-waters-85538.herokuapp.com/',
         ],
-        styleSrc: [
-          "'self'",
-          'https://fonts.googleapis.com/*',
-          "'unsafe-inline'",
-        ],
+        styleSrc: ["'self'", '*', "'unsafe-inline'"],
         styleSrc: [
           "'self'",
           'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css',
           "'unsafe-inline'",
         ],
-        imgSrc: ["'self'", 'https://*.com'],
+        imgSrc: ["'self'", '*'],
         imgSrc: ["'self'", 'http://res.cloudinary.com/*'],
-        fontSrc: ["'self'", 'https://*.com', 'data:'],
+        fontSrc: ["'self'", '*', 'data:'],
       },
     },
   })
