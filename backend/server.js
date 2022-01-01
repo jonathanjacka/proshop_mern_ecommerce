@@ -4,6 +4,11 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import xssClean from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 import pkg from 'cloudinary';
@@ -22,6 +27,18 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+app.use(helmet());
+app.use(xssClean());
+app.use(mongoSanitize());
+app.use(hpp());
+
+// Restrict all routes to only 100 requests per IP address every 10 minutes
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100, // 100 requests per IP
+});
+app.use(limiter);
 
 app.use(express.json());
 
