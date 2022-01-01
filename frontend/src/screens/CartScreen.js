@@ -46,11 +46,6 @@ const CartScreen = () => {
     color: 'inherit',
   };
 
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-
   return (
     <>
       <Meta

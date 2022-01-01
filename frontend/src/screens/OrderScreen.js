@@ -46,7 +46,12 @@ const OrderScreen = () => {
     }
 
     if (order && userInfo) {
+      console.log('Running!');
+
       if (order.user._id !== userInfo._id && !userInfo.isAdmin) {
+        console.log(order.user._id);
+        console.log(userInfo._id);
+        console.log(userInfo.isAdmin);
         navigate('../');
       }
     }
@@ -102,7 +107,11 @@ const OrderScreen = () => {
       ) : (
         <>
           <Meta title={`ProShop | Order ${order._id}`} />
-          <Button as={Link} to={-1} variant='light'>
+          <Button
+            as={Link}
+            to={userInfo.isAdmin ? '/admin/orderlist' : '/profile'}
+            variant='light'
+          >
             Go Back
           </Button>
           <h1 className='order-screen-heading'>Order ID:</h1>

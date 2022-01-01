@@ -12,6 +12,21 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const cartIconStyle = {
+    color: '#fff',
+    background: '#5193f3',
+    borderRadius: '50%',
+    padding: '2px 5px',
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
     navigate('../');
@@ -30,7 +45,12 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
               <Nav.Link className='me-2' as={Link} to='/cart'>
-                <i className='fas fa-shopping-cart pe-1'></i>Cart
+                <i className='fas fa-shopping-cart pe-1'>
+                  {totalQuantity > 0 && (
+                    <span style={cartIconStyle}>{totalQuantity}</span>
+                  )}
+                </i>
+                Cart
               </Nav.Link>
 
               {userInfo ? (
