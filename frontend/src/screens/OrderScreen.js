@@ -45,12 +45,6 @@ const OrderScreen = () => {
       navigate('../login');
     }
 
-    if (order && userInfo) {
-      if (order.user._id !== userInfo._id && !userInfo.isAdmin) {
-        navigate('../');
-      }
-    }
-
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal');
       const script = document.createElement('script');

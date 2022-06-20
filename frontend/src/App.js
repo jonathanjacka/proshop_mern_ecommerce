@@ -85,8 +85,8 @@ const App = () => {
         position='top-center'
         pauseOnHover
         theme='colored'
-        hideProgressBar='true'
-        closeOnClick='true'
+        hideProgressBar={true}
+        closeOnClick={true}
       />
     </Router>
   );
