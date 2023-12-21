@@ -28,6 +28,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Set the trust proxy setting
+app.set('trust proxy', 1);
+app.get('/ip', (request, response) => response.send(request.ip));
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
